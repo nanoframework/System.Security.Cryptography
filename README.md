@@ -4,7 +4,7 @@
 
 -----
 
-### Welcome to the .NET **nanoFramework** System.Security.Cryptography Library repository
+# Welcome to the .NET **nanoFramework** System.Security.Cryptography Library repository
 
 This repository contains the nanoFramework System.Security.Cryptography class library.
 
