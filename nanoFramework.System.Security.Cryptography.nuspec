@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>nanoFramework.System.Security.Cryptography</id>
+    <version>$version$</version>
+    <title>nanoFramework.System.Security.Cryptography</title>
+    <authors>nanoframework</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <releaseNotes>
+    </releaseNotes>
+    <readme>docs\README.md</readme>
+    <developmentDependency>false</developmentDependency>
+    <projectUrl>https://github.com/nanoframework/System.Security.Cryptography</projectUrl>
+    <icon>images\nf-logo.png</icon>
+    <repository type="git" url="https://github.com/nanoframework/System.Security.Cryptography" commit="$commit$" />
+    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
+    <description>This package includes the nanoFramework System.Security.Cryptography assembly for .NET nanoFramework C# projects.
+This package requires a target with nanoFramework.System.Security.Cryptography v$nativeVersion$ (checksum $checksum$).</description>
+    <tags>nanoFramework C# csharp netmf netnf </tags>
+    <dependencies>
+      <dependency id="nanoFramework.CoreLibrary" version="1.14.2" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="nanoFramework.System.Security.Cryptography\bin\Release\nanoFramework.System.Security.Cryptography.dll" target="lib\nanoFramework.System.Security.Cryptography.dll" />
+    <file src="nanoFramework.System.Security.Cryptography\bin\Release\nanoFramework.System.Security.Cryptography.pdb" target="lib\nanoFramework.System.Security.Cryptography.pdb" />
+    <file src="nanoFramework.System.Security.Cryptography\bin\Release\nanoFramework.System.Security.Cryptography.pdbx" target="lib\nanoFramework.System.Security.Cryptography.pdbx" />
+    <file src="nanoFramework.System.Security.Cryptography\bin\Release\nanoFramework.System.Security.Cryptography.pe" target="lib\nanoFramework.System.Security.Cryptography.pe" />
+    <file src="nanoFramework.System.Security.Cryptography\bin\Release\nanoFramework.System.Security.Cryptography.xml" target="lib\nanoFramework.System.Security.Cryptography.xml" />
+    <!-- readme -->
+    <file src="assets\readme.txt" target="" />
+    <file src="README.md" target="docs\" />
+    <file src="assets\nf-logo.png" target="images" />
+    <file src="LICENSE.md" target="" />
+  </files>
+</package>
