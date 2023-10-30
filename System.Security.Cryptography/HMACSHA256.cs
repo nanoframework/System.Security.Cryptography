@@ -79,7 +79,6 @@ namespace System.Security.Cryptography
             generator.NextBytes(_keyValue);
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="HMACSHA256"/> class with the specified key data.
         /// </summary>
@@ -107,11 +106,8 @@ namespace System.Security.Cryptography
                 throw new ObjectDisposedException();
             }
 
-            if (buffer == null)
-            {
-                throw new ArgumentNullException();
-            }
-
+            // Developer note: "buffer" parameter is checked for null by HashCore()
+            
             _hashValue = HashCore(_keyValue, buffer);
 
             return (byte[])_hashValue.Clone();
@@ -130,7 +126,7 @@ namespace System.Security.Cryptography
             byte[] key,
             byte[] source)
         {
-            // key and source are checked for null by HashCore
+            // Developer note: "key" and "source" parameters are checked for null by HashCore()
 
             return HashCore(key, source);
         }
