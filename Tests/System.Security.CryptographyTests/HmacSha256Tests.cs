@@ -80,9 +80,9 @@ namespace System.Security.CryptographyTests
             HMACSHA256 hasher = new HMACSHA256((byte[])keys[keyIndex]);
             hasher.ComputeHash((byte[])sources[sourceIndex]);
 
-            //CollectionAssert.AreEqual(
-            //    (byte[])expectedHashes[hashIndex],
-            //    hasher.Hash);
+            CollectionAssert.AreEqual(
+                (byte[])expectedHashes[hashIndex],
+                hasher.Hash);
         }
     }
 }
