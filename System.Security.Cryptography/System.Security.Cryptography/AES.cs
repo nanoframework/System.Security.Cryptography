@@ -2,11 +2,20 @@
 
 namespace System.Security.Cryptography
 {
+    /// <summary>
+    /// Represents the class for aes encryption/decryption
+    /// </summary>
     public class AES
     {
         public enum EncryptionModes { ECB }
         public EncryptionModes Mode { get; set; } = EncryptionModes.ECB;
 
+        /// <summary>
+        /// Encrypt the array of bytes.
+        /// </summary>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
+        /// <param name="data">array of bytes for encryption</param>
+        /// <returns></returns>
         public byte[] Encrypt(byte[] key, byte[] data)
         {
             byte[] buf = null;
@@ -19,6 +28,12 @@ namespace System.Security.Cryptography
             return buf;
         }
 
+        /// <summary>
+        /// Decrypt the array of bytes.
+        /// </summary>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
+        /// <param name="data">encrypted array of bytes for decryption</param>
+        /// <returns></returns>
         public byte[] Decrypt(byte[] key, byte[] data)
         {
             byte[] buf = null;
@@ -30,6 +45,13 @@ namespace System.Security.Cryptography
 
             return buf;
         }
+
+        /// <summary>
+        /// Encrypt the array of bytes In ECB Mode
+        /// </summary>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
+        /// <param name="data">Array of bytes for encryption</param>
+        /// <returns></returns>
         private byte[] EncryptAesEcb(byte[] key, byte[] data)
         {
             int blockSize = 16; // AES block size is 128 bits (16 bytes)
@@ -58,6 +80,12 @@ namespace System.Security.Cryptography
             return encryptedData;
         }
 
+        /// <summary>
+        /// XOR the block of data with key
+        /// </summary>
+        /// <param name="key">The secret key for XOR opration with block </param>
+        /// <param name="block">The Block of data for XOR opration with secret key</param>
+        /// <exception cref="ArgumentException"></exception>
         private void EncryptBlock(byte[] key, byte[] block)
         {
             // Ensure that the key and block have the same length
@@ -72,6 +100,12 @@ namespace System.Security.Cryptography
             }
         }
 
+        /// <summary>
+        /// Decrypt the array of bytes In ECB Mode
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         private byte[] DecryptAesEcb(byte[] key, byte[] data)
         {
             int blockSize = 16; // AES block size is 128 bits (16 bytes)
@@ -100,6 +134,12 @@ namespace System.Security.Cryptography
             return decryptedData;
         }
 
+        /// <summary>
+        /// XOR the block of data with key
+        /// </summary>
+        /// <param name="key">The secret key for XOR opration with block </param>
+        /// <param name="block">The Block of data for XOR opration with secret key</param>
+        /// <exception cref="ArgumentException"></exception>
         private void DecryptBlock(byte[] key, byte[] block)
         {
             // Ensure that the key and block have the same length
