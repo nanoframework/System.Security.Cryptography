@@ -158,7 +158,7 @@ namespace System.Security.Cryptography
         /// XOR the block of data with key
         /// </summary>
         /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="block">The Block of data for XOR opration with secret key</param>
+        /// <param name="block">The block of data for XOR opration with secret key</param>
         /// <exception cref="ArgumentException">Key and block must have the same length.</exception>
         private void DecryptBlock(byte[] key, byte[] block)
         {
