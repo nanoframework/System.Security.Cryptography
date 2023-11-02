@@ -8,24 +8,40 @@ using System;
 namespace System.Security.Cryptography
 {
     /// <summary>
-    /// Represents the class for aes encryption/decryption
+    /// Specifies the block cipher mode to use for encryption.
+    /// </summary>
+    public enum CipherMode { ECB = 2 }
+
+    /// <summary>
+    /// Represents the abstract base class from which all implementations of the Advanced
+    /// Encryption Standard (AES) must inherit.
     /// </summary>
     public class AES
     {
-        public enum EncryptionModes { ECB }
-        public EncryptionModes Mode { get; set; } = EncryptionModes.ECB;
+        /// <summary>
+        /// Gets or sets the mode for operation of the symmetric algorithm.
+        /// </summary>
+        /// <returns>The mode for operation of the symmetric algorithm. The default is System.Security.Cryptography.CipherMode.ECB.</returns>
+        public virtual CipherMode Mode { get; set; } = CipherMode.ECB;
 
+        /// <summary>
+        ///  Initializes a new instance of the System.Security.Cryptography.Aes class.
+        /// </summary>
+        public AES()
+        {
+            
+        }
         /// <summary>
         /// Encrypt the array of bytes.
         /// </summary>
         /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">array of bytes for encryption</param>
-        /// <returns></returns>
+        /// <param name="data">The array of byte for encryption</param>
+        /// <returns>The encrypted array of bytes</returns>
         public byte[] Encrypt(byte[] key, byte[] data)
         {
             byte[] buf = null;
 
-            if (Mode == EncryptionModes.ECB)
+            if (Mode == CipherMode.ECB)
             {
                 buf = EncryptAesEcb(key, data);
             }
@@ -37,13 +53,13 @@ namespace System.Security.Cryptography
         /// Decrypt the array of bytes.
         /// </summary>
         /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">encrypted array of bytes for decryption</param>
-        /// <returns></returns>
+        /// <param name="data">The encrypted array of byte for decryption</param>
+        /// <returns>The decrypted array of bytes</returns>
         public byte[] Decrypt(byte[] key, byte[] data)
         {
             byte[] buf = null;
 
-            if (Mode == EncryptionModes.ECB)
+            if (Mode == CipherMode.ECB)
             {
                 buf = DecryptAesEcb(key, data);
             }
@@ -55,8 +71,8 @@ namespace System.Security.Cryptography
         /// Encrypt the array of bytes In ECB Mode
         /// </summary>
         /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">Array of bytes for encryption</param>
-        /// <returns></returns>
+        /// <param name="data">Array of byte for encryption</param>
+        /// <returns>The encrypted array of bytes</returns>
         private byte[] EncryptAesEcb(byte[] key, byte[] data)
         {
             int blockSize = 16; // AES block size is 128 bits (16 bytes)
@@ -88,15 +104,15 @@ namespace System.Security.Cryptography
         /// <summary>
         /// XOR the block of data with key
         /// </summary>
-        /// <param name="key">The secret key for XOR opration with block </param>
-        /// <param name="block">The Block of data for XOR opration with secret key</param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
+        /// <param name="block">The block of data for XOR opration with secret key</param>
+        /// <exception cref="ArgumentException">Key and block must have the same length.</exception>
         private void EncryptBlock(byte[] key, byte[] block)
         {
             // Ensure that the key and block have the same length
             if (key.Length != block.Length)
             {
-                throw new ArgumentException("Key and block must have the same length.");
+                throw new ArgumentException();
             }
 
             for (int i = 0; i < block.Length; i++)
@@ -108,9 +124,9 @@ namespace System.Security.Cryptography
         /// <summary>
         /// Decrypt the array of bytes In ECB Mode
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
+        /// <param name="data">The encrypted array of byte for decryption</param>
+        /// <returns>The decrypted array of bytes</returns>
         private byte[] DecryptAesEcb(byte[] key, byte[] data)
         {
             int blockSize = 16; // AES block size is 128 bits (16 bytes)
@@ -142,15 +158,15 @@ namespace System.Security.Cryptography
         /// <summary>
         /// XOR the block of data with key
         /// </summary>
-        /// <param name="key">The secret key for XOR opration with block </param>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
         /// <param name="block">The Block of data for XOR opration with secret key</param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">Key and block must have the same length.</exception>
         private void DecryptBlock(byte[] key, byte[] block)
         {
             // Ensure that the key and block have the same length
             if (key.Length != block.Length)
             {
-                throw new ArgumentException("Key and block must have the same length.");
+                throw new ArgumentException();
             }
 
             for (int i = 0; i < block.Length; i++)
