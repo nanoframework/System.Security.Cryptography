@@ -13,8 +13,7 @@ namespace System.Security.Cryptography
     public enum CipherMode { ECB = 2 }
 
     /// <summary>
-    /// Represents the abstract base class from which all implementations of the Advanced
-    /// Encryption Standard (AES) must inherit.
+    /// Encryption Standard (AES)
     /// </summary>
     public class AES
     {
