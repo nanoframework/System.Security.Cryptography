@@ -27,6 +27,7 @@
     <RunSettingsFilePath>$(SolutionDir)\.runsettings</RunSettingsFilePath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AESTests.cs" />
     <Compile Include="HmacSha256Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
