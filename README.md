@@ -42,26 +42,26 @@ This version supports only the ECB mode
 The following example demonstrates how to encrypt and decrypt sample data by using the Aes class.
 
 ```csharp
-            //Sample Usage
-            string clearText = "Nanoframework";
-            byte[] clearTextByteArray = Encoding.UTF8.GetBytes(clearText);
-            byte[] clearTextByteArrayWithPadding = new byte[16];
-            Array.Copy(clearTextByteArray, 0, clearTextByteArrayWithPadding, 0, clearTextByteArray.Length);
+//Sample Usage
+string clearText = "Nanoframework";
+byte[] clearTextByteArray = Encoding.UTF8.GetBytes(clearText);
+byte[] clearTextByteArrayWithPadding = new byte[16];
+Array.Copy(clearTextByteArray, 0, clearTextByteArrayWithPadding, 0, clearTextByteArray.Length);
 
-            // Create a new instance of the Aes
-            AES aes = new AES();
-            aes.Mode = CipherMode.ECB;
-            byte[] key = new byte[16] { 62, 110, 51, 201, 203, 48, 62, 150, 90, 219, 42, 55, 221, 109, 13, 93 };
+// Create a new instance of the Aes
+AES aes = new AES();
+aes.Mode = CipherMode.ECB;
+byte[] key = new byte[16] { 62, 110, 51, 201, 203, 48, 62, 150, 90, 219, 42, 55, 221, 109, 13, 93 };
 
-            // Encrypt the bytes to a string.
-            var enData = aes.Encrypt(key, clearTextByteArrayWithPadding);
-            string encryptedText = Encoding.UTF8.GetString(enData);
-            Debug.WriteLine(encryptedText);
+// Encrypt the bytes to a string.
+var enData = aes.Encrypt(key, clearTextByteArrayWithPadding);
+string encryptedText = Encoding.UTF8.GetString(enData);
+Debug.WriteLine(encryptedText);
 
-            // Decrypt the bytes to a string.
-            var decryptedByteArray = aes.Decrypt(enData, key);
-            string decryptedText = Encoding.UTF8.GetString(decryptedByteArray);
-            Debug.WriteLine(decryptedText);
+// Decrypt the bytes to a string.
+var decryptedByteArray = aes.Decrypt(enData, key);
+string decryptedText = Encoding.UTF8.GetString(decryptedByteArray);
+Debug.WriteLine(decryptedText);
 ```
 ## Feedback and documentation
 
