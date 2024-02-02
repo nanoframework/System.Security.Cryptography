@@ -16,7 +16,6 @@ namespace System.Security.CryptographyTests
         static byte[] clearDataArray = new byte[] { 78, 97, 110, 111, 102, 114, 97, 109, 101, 119, 111, 114, 107, 0, 0, 0 };
         static byte[] key = new byte[16] { 62, 110, 51, 201, 203, 48, 62, 150, 90, 219, 42, 55, 221, 109, 13, 93 };
 
-
         [TestMethod]
         public void TestAesECBEncryptionAndDecryption()
         {
@@ -30,7 +29,6 @@ namespace System.Security.CryptographyTests
             // Encrypt the bytes
             var enData = aes.Encrypt(key, clearTextByteArrayWithPadding);
             CollectionAssert.AreEqual(cipherDataArray,enData);
-
 
             // Decrypt the bytes
             var decryptedByteArray = aes.Decrypt(enData, key);
