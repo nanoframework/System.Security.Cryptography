@@ -16,7 +16,7 @@ This repository contains the nanoFramework System.Security.Cryptography class li
 
 ## System.Security.Cryptography usage
 
-This library brings to .NET nanoFramework C# applications the equivalent implementations provided by Mbed TLS. The target there the code is going to be deployed has to have a firmware image built with this namespace enabled. 
+This library brings to .NET nanoFramework C# applications the equivalent implementations provided by Mbed TLS. The target there the code is going to be deployed has to have a firmware image built with this namespace enabled.
 
 ### HMAC SHA256
 
@@ -33,25 +33,30 @@ byte[] hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(encodedUri + "\n" + 
 
 string sig = Convert.ToBase64String(hash);
 ```
+
 ### AES
 
 Advanced Encryption Standard (AES)
 
-This version supports only the ECB mode
+[AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) is a variant of the Rijndael block cipher with different key and block sizes. For AES, NIST selected three members of the Rijndael family, each with a block size of 128 bits, but three different key lengths: 128, 192 and 256 bits.
 
-The following example demonstrates how to encrypt and decrypt sample data by using the Aes class.
+The current version has support for the ECB mode. Others will be added.
+The following example demonstrates how to encrypt and decrypt sample data by using the AES class.
+
+Note that the input data has to be multiple of 16 bits, otherwise an exception will be thrown.
+Data shorter than that should be padded with zeros.
 
 ```csharp
 //Sample Usage
 string clearText = "Nanoframework";
 byte[] clearTextByteArray = Encoding.UTF8.GetBytes(clearText);
+// please note the array size: 16 bytes
 byte[] clearTextByteArrayWithPadding = new byte[16];
 Array.Copy(clearTextByteArray, 0, clearTextByteArrayWithPadding, 0, clearTextByteArray.Length);
 
 // Create a new instance of the Aes
-AES aes = new AES();
-aes.Mode = CipherMode.ECB;
-byte[] key = new byte[16] { 62, 110, 51, 201, 203, 48, 62, 150, 90, 219, 42, 55, 221, 109, 13, 93 };
+AES aes = new AES(CipherMode.ECB);
+aes.Key = new byte[16] { 198, 49, 248, 31, 20, 7, 226, 232, 208, 100, 15, 11, 2, 32, 213, 243 };
 
 // Encrypt the bytes to a string.
 var enData = aes.Encrypt(key, clearTextByteArrayWithPadding);
@@ -63,6 +68,7 @@ var decryptedByteArray = aes.Decrypt(enData, key);
 string decryptedText = Encoding.UTF8.GetString(decryptedByteArray);
 Debug.WriteLine(decryptedText);
 ```
+
 ## Feedback and documentation
 
 For documentation, providing feedback, issues and finding out how to contribute please refer to the [Home repo](https://github.com/nanoframework/Home).

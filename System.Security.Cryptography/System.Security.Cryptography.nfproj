@@ -43,7 +43,8 @@
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="AES.cs" />
+    <Compile Include="CipherMode.cs" />
+    <Compile Include="Aes.cs" />
     <Compile Include="HMACSHA256.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
