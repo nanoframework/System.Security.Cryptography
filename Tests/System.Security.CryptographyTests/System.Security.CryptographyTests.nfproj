@@ -27,7 +27,7 @@
     <RunSettingsFilePath>$(SolutionDir)\.runsettings</RunSettingsFilePath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AESTests.cs" />
+    <Compile Include="AesTests.cs" />
     <Compile Include="HmacSha256Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\System.Security.Cryptography\System.Security.Cryptography.nfproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.lock.json" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
 </Project>

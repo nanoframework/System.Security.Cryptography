@@ -3,190 +3,79 @@
 // See LICENSE file in the project root for full license information.
 //
 
-using System;
+using System.Runtime.CompilerServices;
 
 namespace System.Security.Cryptography
 {
     /// <summary>
-    /// Specifies the block cipher mode to use for encryption.
+    /// Provides an Advanced Encryption Standard (AES) algorithm to encrypt and decrypt data.
     /// </summary>
-    public enum CipherMode 
+    public class Aes
     {
-        /// <summary>
-        /// The Electronic Codebook (ECB) mode encrypts each block individually. Any blocks
-        /// of plain text that are identical and in the same message, or that are in a different
-        /// message encrypted with the same key, will be transformed into identical cipher
-        /// text blocks. Important: This mode is not recommended because it opens the door
-        /// for multiple security exploits. If the plain text to be encrypted contains substantial
-        /// repetition, it is feasible for the cipher text to be broken one block at a time.
-        /// It is also possible to use block analysis to determine the encryption key. Also,
-        /// an active adversary can substitute and exchange individual blocks without detection,
-        /// which allows blocks to be saved and inserted into the stream at other points
-        /// without detection.
-        /// </summary>
-        ECB = 2
-    }
+        private CipherMode _mode;
+        private byte[] _key;
 
-    /// <summary>
-    /// Encryption Standard (AES)
-    /// </summary>
-    public class AES
-    {
         /// <summary>
         /// Gets or sets the mode for operation of the symmetric algorithm.
         /// </summary>
-        /// <returns>The mode for operation of the symmetric algorithm. The default is System.Security.Cryptography.CipherMode.ECB.</returns>
-        public virtual CipherMode Mode { get; set; } = CipherMode.ECB;
+        /// <value>The mode for operation of the symmetric algorithm.</value>
+        public CipherMode Mode { get => _mode; set => _mode = value; }
 
         /// <summary>
-        ///  Initializes a new instance of the System.Security.Cryptography.Aes class.
+        /// Gets or sets the secret key for the symmetric algorithm.
         /// </summary>
-        public AES()
+        /// <value>The secret key for the symmetric algorithm.</value>
+        public byte[] Key { get => _key; set => _key = value; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Aes"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This implementation of the AES is specific to .NET nanoFramework.
+        /// </remarks>
+        public Aes(CipherMode mode)
         {
-            
+            Mode = mode;
         }
-        /// <summary>
-        /// Encrypt the array of bytes.
-        /// </summary>
-        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">The array of byte for encryption</param>
-        /// <returns>The encrypted array of bytes</returns>
-        public byte[] Encrypt(byte[] key, byte[] data)
-        {
-            byte[] buf = null;
 
+        /// <summary>
+        /// Encrypts data using the cipher specified in <see cref="Mode"/>.
+        /// </summary>
+        /// <param name="data">The data to encrypt.</param>
+        /// <returns>The encrypted ciphertext data.</returns>
+        /// <exception cref="InvalidOperationException">If the <see cref="Key"/> hasn't been set.</exception>
+        /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
+        public byte[] Encrypt(byte[] data)
+        {
             if (Mode == CipherMode.ECB)
             {
-                buf = EncryptAesEcb(key, data);
+                return EncryptAesEcb(data);
             }
 
-            return buf;
+            throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Decrypt the array of bytes.
+        /// Decrypts data using cipher specified in <see cref="Mode"/>.
         /// </summary>
-        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">The encrypted array of byte for decryption</param>
-        /// <returns>The decrypted array of bytes</returns>
-        public byte[] Decrypt(byte[] key, byte[] data)
+        /// <param name="data">The data to decrypt.</param>
+        /// <returns>The decrypted plaintext data.</returns>
+        /// <exception cref="InvalidOperationException">If the <see cref="Key"/> hasn't been set.</exception>
+        /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
+        public byte[] Decrypt(byte[] data)
         {
-            byte[] buf = null;
-
             if (Mode == CipherMode.ECB)
             {
-                buf = DecryptAesEcb(key, data);
+                return DecryptAesEcb(data);
             }
 
-            return buf;
+            throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Encrypt the array of bytes In ECB Mode
-        /// </summary>
-        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">Array of byte for encryption</param>
-        /// <returns>The encrypted array of bytes</returns>
-        private byte[] EncryptAesEcb(byte[] key, byte[] data)
-        {
-            int blockSize = 16; // AES block size is 128 bits (16 bytes)
-            int blockCount = data.Length / blockSize;
-            int remainder = data.Length % blockSize;
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern byte[] EncryptAesEcb(byte[] data);
 
-            byte[] encryptedData = new byte[data.Length];
-
-            for (int i = 0; i < blockCount; i++)
-            {
-                byte[] block = new byte[blockSize];
-                Array.Copy(data, i * blockSize, block, 0, blockSize);
-                EncryptBlock(key, block);
-                Array.Copy(block, 0, encryptedData, i * blockSize, blockSize);
-            }
-
-            // If there is a remainder, pad the last block and encrypt
-            if (remainder > 0)
-            {
-                byte[] lastBlock = new byte[blockSize];
-                Array.Copy(data, blockCount * blockSize, lastBlock, 0, remainder);
-                EncryptBlock(key, lastBlock);
-                Array.Copy(lastBlock, 0, encryptedData, blockCount * blockSize, remainder);
-            }
-
-            return encryptedData;
-        }
-
-        /// <summary>
-        /// XOR the block of data with key
-        /// </summary>
-        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="block">The block of data for XOR opration with secret key</param>
-        /// <exception cref="ArgumentException">Key and block must have the same length.</exception>
-        private void EncryptBlock(byte[] key, byte[] block)
-        {
-            // Ensure that the key and block have the same length
-            if (key.Length != block.Length)
-            {
-                throw new ArgumentException();
-            }
-
-            for (int i = 0; i < block.Length; i++)
-            {
-                block[i] = (byte)(block[i] ^ key[i]);
-            }
-        }
-
-        /// <summary>
-        /// Decrypt the array of bytes In ECB Mode
-        /// </summary>
-        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="data">The encrypted array of byte for decryption</param>
-        /// <returns>The decrypted array of bytes</returns>
-        private byte[] DecryptAesEcb(byte[] key, byte[] data)
-        {
-            int blockSize = 16; // AES block size is 128 bits (16 bytes)
-            int blockCount = data.Length / blockSize;
-            int remainder = data.Length % blockSize;
-
-            byte[] decryptedData = new byte[data.Length];
-
-            for (int i = 0; i < blockCount; i++)
-            {
-                byte[] block = new byte[blockSize];
-                Array.Copy(data, i * blockSize, block, 0, blockSize);
-                DecryptBlock(key, block);
-                Array.Copy(block, 0, decryptedData, i * blockSize, blockSize);
-            }
-
-            // If there is a remainder, pad the last block and decrypt
-            if (remainder > 0)
-            {
-                byte[] lastBlock = new byte[blockSize];
-                Array.Copy(data, blockCount * blockSize, lastBlock, 0, remainder);
-                DecryptBlock(key, lastBlock);
-                Array.Copy(lastBlock, 0, decryptedData, blockCount * blockSize, remainder);
-            }
-
-            return decryptedData;
-        }
-
-        /// <summary>
-        /// XOR the block of data with key
-        /// </summary>
-        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="block">The block of data for XOR opration with secret key</param>
-        /// <exception cref="ArgumentException">Key and block must have the same length.</exception>
-        private void DecryptBlock(byte[] key, byte[] block)
-        {
-            // Ensure that the key and block have the same length
-            if (key.Length != block.Length)
-            {
-                throw new ArgumentException();
-            }
-
-            for (int i = 0; i < block.Length; i++)
-            {
-                block[i] = (byte)(block[i] ^ key[i]);
-            }
-        }
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern byte[] DecryptAesEcb(byte[] data);
     }
 }
