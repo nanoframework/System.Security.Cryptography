@@ -14,6 +14,7 @@ namespace System.Security.Cryptography
     {
         private CipherMode _mode;
         private byte[] _key;
+        private byte[] _IV;
 
         /// <summary>
         /// Gets or sets the mode for operation of the symmetric algorithm.
@@ -28,10 +29,16 @@ namespace System.Security.Cryptography
         public byte[] Key { get => _key; set => _key = value; }
 
         /// <summary>
+        /// Gets or sets the initialization vector for the symmetric algorithm.
+        /// </summary>
+        /// <value>The secret key for the symmetric algorithm.</value>
+        public byte[] IV { get => _key; set => _key = value; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Aes"/> class.
         /// </summary>
         /// <remarks>
-        /// This implementation of the AES is specific to .NET nanoFramework.
+        /// The initialization vector.
         /// </remarks>
         public Aes(CipherMode mode)
         {
@@ -47,9 +54,12 @@ namespace System.Security.Cryptography
         /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
         public byte[] Encrypt(byte[] data)
         {
-            if (Mode == CipherMode.ECB)
+            switch (Mode)
             {
-                return EncryptAesEcb(data);
+                case CipherMode.ECB:
+                    return EncryptAesEcb(data);
+                case CipherMode.CBC:
+                    return EncryptAesCbc(data);
             }
 
             throw new NotSupportedException();
@@ -64,10 +74,15 @@ namespace System.Security.Cryptography
         /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
         public byte[] Decrypt(byte[] data)
         {
-            if (Mode == CipherMode.ECB)
+            switch (Mode)
             {
-                return DecryptAesEcb(data);
+                case CipherMode.ECB:
+                    return DecryptAesEcb(data);
+                    break;
+                case CipherMode.CBC:
+                    return DecryptAesCbc(data);
             }
+
 
             throw new NotSupportedException();
         }
@@ -77,5 +92,11 @@ namespace System.Security.Cryptography
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern byte[] DecryptAesEcb(byte[] data);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern byte[] EncryptAesCbc(byte[] data);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern byte[] DecryptAesCbc(byte[] data);
     }
 }
