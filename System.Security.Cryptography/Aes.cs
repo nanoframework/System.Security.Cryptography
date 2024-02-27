@@ -40,6 +40,15 @@ namespace System.Security.Cryptography
         public Aes(CipherMode mode)
         {
             Mode = mode;
+
+            if (Mode == CipherMode.CBC)
+            {
+                _iv = new byte[16];
+
+                // Fill the IV with random data
+                Random random = new Random();
+                random.NextBytes(_iv);
+            }
         }
 
         /// <summary>
