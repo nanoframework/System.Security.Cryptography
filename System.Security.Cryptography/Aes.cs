@@ -58,11 +58,13 @@ namespace System.Security.Cryptography
             {
                 case CipherMode.ECB:
                     return EncryptAesEcb(data);
+
                 case CipherMode.CBC:
                     return EncryptAesCbc(data);
-            }
 
-            throw new NotSupportedException();
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         /// <summary>
@@ -78,13 +80,13 @@ namespace System.Security.Cryptography
             {
                 case CipherMode.ECB:
                     return DecryptAesEcb(data);
-                    break;
+
                 case CipherMode.CBC:
                     return DecryptAesCbc(data);
+
+                default:
+                    throw new NotSupportedException();
             }
-
-
-            throw new NotSupportedException();
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
