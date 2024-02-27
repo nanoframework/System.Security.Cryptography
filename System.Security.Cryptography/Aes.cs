@@ -14,7 +14,7 @@ namespace System.Security.Cryptography
     {
         private CipherMode _mode;
         private byte[] _key;
-        private byte[] _IV;
+        private byte[] _iv;
 
         /// <summary>
         /// Gets or sets the mode for operation of the symmetric algorithm.
@@ -31,15 +31,12 @@ namespace System.Security.Cryptography
         /// <summary>
         /// Gets or sets the initialization vector for the symmetric algorithm.
         /// </summary>
-        /// <value>The secret key for the symmetric algorithm.</value>
-        public byte[] IV { get => _key; set => _key = value; }
+        /// <value>The initialization vector.</value>
+        public byte[] IV { get => _iv; set => _iv = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Aes"/> class.
         /// </summary>
-        /// <remarks>
-        /// The initialization vector.
-        /// </remarks>
         public Aes(CipherMode mode)
         {
             Mode = mode;
