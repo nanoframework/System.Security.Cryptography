@@ -147,5 +147,185 @@ namespace System.Security.CryptographyTests
                 typeof(InvalidOperationException),
                 () => aes.Encrypt(new byte[] { 1, 2, 3, 4, 5 }));
         }
+
+        [TestMethod]
+        public void TestAesECBEncryptionForMultiple32Bytes()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption for 32 bytes");
+
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = key1;
+
+            byte[] Byte32ValueToEncrypt = Encoding.UTF8.GetBytes("Hello this is Cryptonite..012345");
+
+            var encryptedData = aes.Encrypt(Byte32ValueToEncrypt);
+
+            bool allZero = true;
+            for (int i = 16; i < 32; i++)
+            {
+                if (encryptedData[i] != 0)
+                {
+                    allZero = false;
+                }
+            }
+
+            Assert.IsFalse(allZero);
+
+            var decryptedByteArray = aes.Decrypt(encryptedData);
+            CollectionAssert.AreEqual(
+                Byte32ValueToEncrypt,
+                decryptedByteArray);
+        }
+
+
+        //CBC tests
+
+
+        public void TestAesECBEncryptionAndDecryption_00()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption/Decryption 00");
+
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = key1;
+
+            // Encrypt the bytes
+            var encryptedData = aes.Encrypt(plainText1);
+            CollectionAssert.AreEqual(
+                cipherText1,
+                encryptedData);
+
+            // Decrypt the bytes
+            var decryptedByteArray = aes.Decrypt(encryptedData);
+            CollectionAssert.AreEqual(
+                plainText1,
+                decryptedByteArray);
+        }
+
+        [TestMethod]
+        public void TestAesECBEncryptionAndDecryption_01()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption/Decryption 01");
+
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = key2;
+
+            // Encrypt the bytes
+            var encryptedData = aes.Encrypt(plainText2);
+            CollectionAssert.AreEqual(
+                cipherText2,
+                encryptedData);
+
+            // Decrypt the bytes
+            var decryptedByteArray = aes.Decrypt(encryptedData);
+            CollectionAssert.AreEqual(
+                plainText2,
+                decryptedByteArray);
+        }
+
+        [TestMethod]
+        public void TestAesECBEncryptionAndDecryption_02()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption/Decryption 02");
+
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = key2;
+
+            // Encrypt the bytes
+            var encryptedData = aes.Encrypt(plainText3);
+            CollectionAssert.AreEqual(
+                cipherText3,
+                encryptedData);
+
+            // Decrypt the bytes
+            var decryptedByteArray = aes.Decrypt(encryptedData);
+            CollectionAssert.AreEqual(
+                plainText3,
+                decryptedByteArray);
+        }
+
+
+        [TestMethod]
+        public void TestAesECBEncryptionAndDecryption_03()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption/Decryption 03");
+
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = key2;
+
+            // Encrypt the bytes
+            var encryptedData = aes.Encrypt(plainText4);
+            CollectionAssert.AreEqual(
+                cipherText4,
+                encryptedData);
+
+            // Decrypt the bytes
+            var decryptedByteArray = aes.Decrypt(encryptedData);
+            CollectionAssert.AreEqual(
+                plainText4,
+                decryptedByteArray);
+        }
+
+        [TestMethod]
+        public void TestAesECBEncryptionAndDecryption_Failing()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption/Decryption 02");
+
+            /////////////////////////////////
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = new byte[] { 1, 2, 3, 4, 5 };
+
+            // should throw ArgumentException because the key is not 16 bytes
+            Assert.ThrowsException(
+                typeof(ArgumentException),
+                () => aes.Encrypt(plainText1));
+
+            /////////////////////////////////
+            aes = new(CipherMode.ECB);
+
+            // should throw InvalidOperationException because the key hasn't been set
+            Assert.ThrowsException(
+                typeof(InvalidOperationException),
+                () => aes.Encrypt(plainText1));
+
+            /////////////////////////////////
+            aes = new(CipherMode.ECB);
+            aes.Key = key2;
+
+            // should throw InvalidOperationException because the data is not a multiple of the block size (16 bytes)
+            Assert.ThrowsException(
+                typeof(InvalidOperationException),
+                () => aes.Encrypt(new byte[] { 1, 2, 3, 4, 5 }));
+        }
+
+        [TestMethod]
+        public void TestAesECBEncryptionForMultiple32Bytes()
+        {
+            OutputHelper.WriteLine($"Test Case: ECB Encryption for 32 bytes");
+
+            Aes aes = new(CipherMode.ECB);
+            aes.Key = key1;
+
+            byte[] Byte32ValueToEncrypt = Encoding.UTF8.GetBytes("Hello this is Cryptonite..012345");
+
+            var encryptedData = aes.Encrypt(Byte32ValueToEncrypt);
+
+            bool allZero = true;
+            for (int i = 16; i < 32; i++)
+            {
+                if (encryptedData[i] != 0)
+                {
+                    allZero = false;
+                }
+            }
+
+            Assert.IsFalse(allZero);
+
+            var decryptedByteArray = aes.Decrypt(encryptedData);
+            CollectionAssert.AreEqual(
+                Byte32ValueToEncrypt,
+                decryptedByteArray);
+        }
+
+
     }
 }
