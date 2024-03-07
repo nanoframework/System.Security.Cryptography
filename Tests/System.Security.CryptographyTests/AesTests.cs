@@ -327,6 +327,10 @@ namespace System.Security.CryptographyTests
         }
 
 
+
+
+
+
         //CBC
         [TestMethod]
         public void TestAesCBCEncryptionAndDecryption_00()
@@ -476,25 +480,47 @@ namespace System.Security.CryptographyTests
 
 
         //CBC tests
-
+        static byte[] KeyCbc = new byte[] { 0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c };
+        static byte[] IVCbc = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
+        
+        //static byte[] PlaintextCbc1 = new byte[] { 0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93, 0x17, 0x2a };
+        static byte[] InputBlockCbc1 = new byte[] { 0x6b, 0xc0, 0xbc, 0xe1, 0x2a, 0x45, 0x99, 0x91, 0xe1, 0x34, 0x74, 0x1a, 0x7f, 0x9e, 0x19, 0x25 };
+        //static byte[] OutputBlockCbc1 = new byte[] { 0x76, 0x49, 0xab, 0xac, 0x81, 0x19, 0xb2, 0x46, 0xce, 0xe9, 0x8e, 0x9b, 0x12, 0xe9, 0x19, 0x7d };
+        static byte[] CiphertextCbc1 = new byte[] { 0x76, 0x49, 0xab, 0xac, 0x81, 0x19, 0xb2, 0x46, 0xce, 0xe9, 0x8e, 0x9b, 0x12, 0xe9, 0x19, 0x7d };
+        
+        //static byte[] PlaintextCbc2 = new byte[] { 0xae, 0x2d, 0x8a, 0x57, 0x1e, 0x03, 0xac, 0x9c, 0x9e, 0xb7, 0x6f, 0xac, 0x45, 0xaf, 0x8e, 0x51 };
+        static byte[] InputBlockCbc2 = new byte[] { 0xd8, 0x64, 0x21, 0xfb, 0x9f, 0x1a, 0x1e, 0xda, 0x50, 0x5e, 0xe1, 0x37, 0x57, 0x46, 0x97, 0x2c };
+        //static byte[] OutputBlockCbc2 = new byte[] { 0x50, 0x86, 0xcb, 0x9b, 0x50, 0x72, 0x19, 0xee, 0x95, 0xdb, 0x11, 0x3a, 0x91, 0x76, 0x78, 0xb2 };
+        static byte[] CiphertextCbc2 = new byte[] { 0x50, 0x86, 0xcb, 0x9b, 0x50, 0x72, 0x19, 0xee, 0x95, 0xdb, 0x11, 0x3a, 0x91, 0x76, 0x78, 0xb2 };
+        
+        //static byte[] PlaintextCbc3 = new byte[] { 0x30, 0xc8, 0x1c, 0x46, 0xa3, 0x5c, 0xe4, 0x11, 0xe5, 0xfb, 0xc1, 0x19, 0x1a, 0x0a, 0x52, 0xef };
+        static byte[] InputBlockCbc3 = new byte[] { 0x60, 0x4e, 0xd7, 0xdd, 0xf3, 0x2e, 0xfd, 0xff, 0x70, 0x20, 0xd0, 0x23, 0x8b, 0x7c, 0x2a, 0x5d };
+        //static byte[] OutputBlockCbc3 = new byte[] { 0x73, 0xbe, 0xd6, 0xb8, 0xe3, 0xc1, 0x74, 0x3b, 0x71, 0x16, 0xe6, 0x9e, 0x22, 0x22, 0x95, 0x16 };
+        static byte[] CiphertextCbc3 = new byte[] { 0x73, 0xbe, 0xd6, 0xb8, 0xe3, 0xc1, 0x74, 0x3b, 0x71, 0x16, 0xe6, 0x9e, 0x22, 0x22, 0x95, 0x16 };
+        
+        //static byte[] PlaintextCbc4 = new byte[] { 0xf6, 0x9f, 0x24, 0x45, 0xdf, 0x4f, 0x9b, 0x17, 0xad, 0x2b, 0x41, 0x7b, 0xe6, 0x6c, 0x37, 0x10 };
+        static byte[] InputBlockCbc4 = new byte[] { 0x85, 0x21, 0xf2, 0xfd, 0x3c, 0x8e, 0xef, 0x2c, 0xdc, 0x3d, 0xa7, 0xe5, 0xc4, 0x4e, 0xa2, 0x06 };
+        //static byte[] OutputBlockCbc4 = new byte[] { 0x3f, 0xf1, 0xca, 0xa1, 0x68, 0x1f, 0xac, 0x09, 0x12, 0x0e, 0xca, 0x30, 0x75, 0x86, 0xe1, 0xa7 };
+        static byte[] CiphertextCbc4 = new byte[] { 0x3f, 0xf1, 0xca, 0xa1, 0x68, 0x1f, 0xac, 0x09, 0x12, 0x0e, 0xca, 0x30, 0x75, 0x86, 0xe1, 0xa7 };
 
         public void TestAesCBCEncryptionAndDecryption_00()
         {
             OutputHelper.WriteLine($"Test Case: CBC Encryption/Decryption 00");
 
             Aes aes = new(CipherMode.CBC);
-            aes.Key = key1;
+            aes.Key = KeyCbc;
+            aes.IV = IVCbc;
 
             // Encrypt the bytes
-            var encryptedData = aes.Encrypt(plainText1);
+            var encryptedData = aes.Encrypt(InputBlockCbc1);
             CollectionAssert.AreEqual(
-                cipherTextCbc1,
+                CiphertextCbc1,
                 encryptedData);
 
             // Decrypt the bytes
             var decryptedByteArray = aes.Decrypt(encryptedData);
             CollectionAssert.AreEqual(
-                plainText1,
+                InputBlockCbc1,
                 decryptedByteArray);
         }
 
@@ -504,18 +530,19 @@ namespace System.Security.CryptographyTests
             OutputHelper.WriteLine($"Test Case: CBC Encryption/Decryption 01");
 
             Aes aes = new(CipherMode.CBC);
-            aes.Key = key2;
+            aes.Key = KeyCbc;
+            aes.IV = IVCbc;
 
             // Encrypt the bytes
-            var encryptedData = aes.Encrypt(plainText2);
+            var encryptedData = aes.Encrypt(InputBlockCbc2);
             CollectionAssert.AreEqual(
-                cipherTextCbc2,
+                CiphertextCbc2,
                 encryptedData);
 
             // Decrypt the bytes
             var decryptedByteArray = aes.Decrypt(encryptedData);
             CollectionAssert.AreEqual(
-                plainText2,
+                InputBlockCbc2,
                 decryptedByteArray);
         }
 
@@ -525,18 +552,19 @@ namespace System.Security.CryptographyTests
             OutputHelper.WriteLine($"Test Case: CBC Encryption/Decryption 02");
 
             Aes aes = new(CipherMode.CBC);
-            aes.Key = key2;
+            aes.Key = KeyCbc;
+            aes.IV = IVCbc;
 
             // Encrypt the bytes
-            var encryptedData = aes.Encrypt(plainText3);
+            var encryptedData = aes.Encrypt(InputBlockCbc3);
             CollectionAssert.AreEqual(
-                cipherTextCbc3,
+                CiphertextCbc3,
                 encryptedData);
 
             // Decrypt the bytes
             var decryptedByteArray = aes.Decrypt(encryptedData);
             CollectionAssert.AreEqual(
-                plainText3,
+                InputBlockCbc3,
                 decryptedByteArray);
         }
 
@@ -547,18 +575,19 @@ namespace System.Security.CryptographyTests
             OutputHelper.WriteLine($"Test Case: CBC Encryption/Decryption 03");
 
             Aes aes = new(CipherMode.CBC);
-            aes.Key = key2;
+            aes.Key = KeyCbc;
+            aes.IV = IVCbc;
 
             // Encrypt the bytes
-            var encryptedData = aes.Encrypt(plainText4);
+            var encryptedData = aes.Encrypt(InputBlockCbc4);
             CollectionAssert.AreEqual(
-                cipherTextCbc4,
+                CiphertextCbc4,
                 encryptedData);
 
             // Decrypt the bytes
             var decryptedByteArray = aes.Decrypt(encryptedData);
             CollectionAssert.AreEqual(
-                plainText4,
+                InputBlockCbc4,
                 decryptedByteArray);
         }
 
@@ -600,7 +629,8 @@ namespace System.Security.CryptographyTests
             OutputHelper.WriteLine($"Test Case: CBC Encryption for 32 bytes");
 
             Aes aes = new(CipherMode.CBC);
-            aes.Key = key1;
+            aes.Key = KeyCbc;
+            aes.IV = IVCbc;
 
             byte[] Byte32ValueToEncrypt = Encoding.UTF8.GetBytes("Hello this is Cryptonite..012345");
 
