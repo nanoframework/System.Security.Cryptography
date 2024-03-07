@@ -45,11 +45,21 @@ namespace System.Security.Cryptography
             {
                 _iv = new byte[16];
 
-                // Fill the IV with random data
-                Random random = new Random();
-                random.NextBytes(_iv);
+                
             }
         }
+
+        /// <summary>
+        /// Generate a random initialization vector
+        /// </summary>
+        public void GenerateIV()
+        {
+            // Fill the IV with random data
+            Random random = new Random();
+            random.NextBytes(_iv);
+        }
+
+
 
         /// <summary>
         /// Encrypts data using the cipher specified in <see cref="Mode"/>.
