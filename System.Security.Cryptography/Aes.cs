@@ -45,7 +45,7 @@ namespace System.Security.Cryptography
             {
                 _iv = new byte[16];
 
-                
+
             }
         }
 
@@ -58,8 +58,6 @@ namespace System.Security.Cryptography
             Random random = new Random();
             random.NextBytes(_iv);
         }
-
-
 
         /// <summary>
         /// Encrypts data using the cipher specified in <see cref="Mode"/>.
