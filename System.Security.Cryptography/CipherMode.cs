@@ -14,6 +14,7 @@ namespace System.Security.Cryptography
         /// No cipher mode set. 
         /// </summary>
         None = 0,
+
         /// <summary>
         /// The Cipher Block Chaining (CBC) mode introduces feedback. Before each plain text
         /// block is encrypted, it is combined with the cipher text of the previous block
@@ -26,6 +27,7 @@ namespace System.Security.Cryptography
         /// as the original mangled bit, will be mangled.
         /// </summary>
         CBC = 1,
+
         /// <summary>
         /// The Electronic Codebook (ECB) mode encrypts each block individually. Any blocks
         /// of plain text that are identical and in the same message, or that are in a different
