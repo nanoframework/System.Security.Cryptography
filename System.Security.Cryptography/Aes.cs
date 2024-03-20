@@ -14,6 +14,7 @@ namespace System.Security.Cryptography
     {
         private CipherMode _mode;
         private byte[] _key;
+        private byte[] _iv;
 
         /// <summary>
         /// Gets or sets the mode for operation of the symmetric algorithm.
@@ -28,14 +29,34 @@ namespace System.Security.Cryptography
         public byte[] Key { get => _key; set => _key = value; }
 
         /// <summary>
+        /// Gets or sets the initialization vector for the symmetric algorithm.
+        /// </summary>
+        /// <value>The initialization vector.</value>
+        public byte[] IV { get => _iv; set => _iv = value; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Aes"/> class.
         /// </summary>
-        /// <remarks>
-        /// This implementation of the AES is specific to .NET nanoFramework.
-        /// </remarks>
         public Aes(CipherMode mode)
         {
-            Mode = mode;
+            _mode = mode;
+
+            if (mode == CipherMode.CBC)
+            {
+                _iv = new byte[16];
+
+                GenerateIV();
+            }
+        }
+
+        /// <summary>
+        /// Generate a random initialization vector
+        /// </summary>
+        public void GenerateIV()
+        {
+            // fill IV baking field with random data
+            Random random = new Random();
+            random.NextBytes(_iv);
         }
 
         /// <summary>
@@ -44,15 +65,24 @@ namespace System.Security.Cryptography
         /// <param name="data">The data to encrypt.</param>
         /// <returns>The encrypted ciphertext data.</returns>
         /// <exception cref="InvalidOperationException">If the <see cref="Key"/> hasn't been set.</exception>
-        /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
+        /// <exception cref="ArgumentException">
+        /// <para>If the <see cref="Key"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// <para>-OR-</para>
+        /// <para>If the <paramref name="data"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// </exception>
         public byte[] Encrypt(byte[] data)
         {
-            if (Mode == CipherMode.ECB)
+            switch (Mode)
             {
-                return EncryptAesEcb(data);
-            }
+                case CipherMode.ECB:
+                    return EncryptAesEcb(data);
 
-            throw new NotSupportedException();
+                case CipherMode.CBC:
+                    return EncryptAesCbc(data);
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         /// <summary>
@@ -61,15 +91,24 @@ namespace System.Security.Cryptography
         /// <param name="data">The data to decrypt.</param>
         /// <returns>The decrypted plaintext data.</returns>
         /// <exception cref="InvalidOperationException">If the <see cref="Key"/> hasn't been set.</exception>
-        /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
+        /// <exception cref="ArgumentException">
+        /// <para>If the <see cref="Key"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// <para>-OR-</para>
+        /// <para>If the <paramref name="data"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// </exception>
         public byte[] Decrypt(byte[] data)
         {
-            if (Mode == CipherMode.ECB)
+            switch (Mode)
             {
-                return DecryptAesEcb(data);
-            }
+                case CipherMode.ECB:
+                    return DecryptAesEcb(data);
 
-            throw new NotSupportedException();
+                case CipherMode.CBC:
+                    return DecryptAesCbc(data);
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -77,5 +116,11 @@ namespace System.Security.Cryptography
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern byte[] DecryptAesEcb(byte[] data);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern byte[] EncryptAesCbc(byte[] data);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern byte[] DecryptAesCbc(byte[] data);
     }
 }
