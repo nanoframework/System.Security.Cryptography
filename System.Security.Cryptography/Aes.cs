@@ -65,7 +65,11 @@ namespace System.Security.Cryptography
         /// <param name="data">The data to encrypt.</param>
         /// <returns>The encrypted ciphertext data.</returns>
         /// <exception cref="InvalidOperationException">If the <see cref="Key"/> hasn't been set.</exception>
-        /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
+        /// <exception cref="ArgumentException">
+        /// <para>If the <see cref="Key"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// <para>-OR-</para>
+        /// <para>If the <paramref name="data"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// </exception>
         public byte[] Encrypt(byte[] data)
         {
             switch (Mode)
@@ -87,7 +91,11 @@ namespace System.Security.Cryptography
         /// <param name="data">The data to decrypt.</param>
         /// <returns>The decrypted plaintext data.</returns>
         /// <exception cref="InvalidOperationException">If the <see cref="Key"/> hasn't been set.</exception>
-        /// <exception cref="ArgumentException">If the data in not a multiple of the block size (16 bytes for AES).</exception>
+        /// <exception cref="ArgumentException">
+        /// <para>If the <see cref="Key"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// <para>-OR-</para>
+        /// <para>If the <paramref name="data"/> is not a multiple of the block size (16 bytes for AES).</para>
+        /// </exception>
         public byte[] Decrypt(byte[] data)
         {
             switch (Mode)
