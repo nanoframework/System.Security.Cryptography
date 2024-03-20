@@ -39,13 +39,13 @@ namespace System.Security.Cryptography
         /// </summary>
         public Aes(CipherMode mode)
         {
-            Mode = mode;
+            _mode = mode;
 
-            if (Mode == CipherMode.CBC)
+            if (mode == CipherMode.CBC)
             {
                 _iv = new byte[16];
 
-
+                GenerateIV();
             }
         }
 
