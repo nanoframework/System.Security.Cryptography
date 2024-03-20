@@ -54,7 +54,7 @@ namespace System.Security.Cryptography
         /// </summary>
         public void GenerateIV()
         {
-            // Fill the IV with random data
+            // fill IV baking field with random data
             Random random = new Random();
             random.NextBytes(_iv);
         }
