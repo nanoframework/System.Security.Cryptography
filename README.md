@@ -40,11 +40,13 @@ Advanced Encryption Standard (AES)
 
 [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) is a variant of the Rijndael block cipher with different key and block sizes. For AES, NIST selected three members of the Rijndael family, each with a block size of 128 bits, but three different key lengths: 128, 192 and 256 bits.
 
-The current version has support for the ECB mode. Others will be added.
-The following example demonstrates how to encrypt and decrypt sample data by using the AES class.
+The current version has support for the ECB and CBC modes.
+The following examples demonstrates how to encrypt and decrypt sample data by using the AES class.
 
 Note that the input data has to be multiple of 16 bits, otherwise an exception will be thrown.
 Data shorter than that should be padded with zeros.
+
+#### ECB-AES128
 
 ```csharp
 //Sample Usage
@@ -59,12 +61,34 @@ AES aes = new AES(CipherMode.ECB);
 aes.Key = new byte[16] { 198, 49, 248, 31, 20, 7, 226, 232, 208, 100, 15, 11, 2, 32, 213, 243 };
 
 // Encrypt the bytes to a string.
-var enData = aes.Encrypt(key, clearTextByteArrayWithPadding);
-string encryptedText = Encoding.UTF8.GetString(enData);
+var encryptedData = aes.Encrypt(clearTextByteArrayWithPadding);
+string encryptedText = Encoding.UTF8.GetString(encryptedData);
 Debug.WriteLine(encryptedText);
 
 // Decrypt the bytes to a string.
-var decryptedByteArray = aes.Decrypt(enData, key);
+var decryptedByteArray = aes.Decrypt(encryptedData);
+string decryptedText = Encoding.UTF8.GetString(decryptedByteArray);
+Debug.WriteLine(decryptedText);
+```
+
+#### CBC-AES128
+
+```csharp
+//Sample Usage
+byte[] inputBlockCbc1 = new byte[] { 0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93, 0x17, 0x2a };
+
+// Create a new instance of the Aes class for CBC
+Aes aes = new(CipherMode.CBC);
+aes.Key = new byte[] { 198, 49, 248, 31, 20, 7, 226, 232, 208, 100, 15, 11, 2, 32, 213, 243 };;
+aes.IV = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
+
+// Encrypt the bytes
+var encryptedData = aes.Encrypt(inputBlockCbc1);
+string encryptedText = Encoding.UTF8.GetString(encryptedData);
+Debug.WriteLine(encryptedText);
+
+// Decrypt the bytes to a string.
+var decryptedByteArray = aes.Decrypt(encryptedData);
 string decryptedText = Encoding.UTF8.GetString(decryptedByteArray);
 Debug.WriteLine(decryptedText);
 ```
