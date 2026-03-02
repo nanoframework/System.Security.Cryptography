@@ -30,6 +30,7 @@
     <Compile Include="AesTests_CBC.cs" />
     <Compile Include="AesTests_ECB.cs" />
     <Compile Include="HmacSha256Tests.cs" />
+    <Compile Include="HmacSha512Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
